@@ -2,63 +2,52 @@
 
 Esse projeto é uma plataforma de estudos através de FlashCards, onde as coleções de Flash Cards podem ser geradas utilizando AI e também compartilhadas com a comunidade
 
-## Requisitos 
+## Glossário
 
-### Gerenciamento de Decks
+- **Flash Card**: Um cartão de estudos que contém um conteúdo (texto/imagem/gif) de pergunta e uma resposta.
+- **Deck**: Coleção de **flash cards** voltado para estudar um tema especifico, que é categorizado pelas suas **tags**
+- **Tag**: Uma palavra chave que será utilizada para pesquisa e categorização dos **decks**.
+- **Estudo**: Uma sessão de estudo com **flash cards**, onde eles aparecerão aleatoriamente e baseado na dificuldade do estudante em responder as perguntas.
+- **Biblioteca**: Repositório de **decks** publicos que os **usuários** podem buscar **decks** para estudar.
+- **Avaliação**: É uma recomendação ou não recomendação de um **deck**, pode conter um comentário e também outros **usuários** podem votar sobre a utilidade da **avaliação**.
+- **Usuário**: O estudante que utiliza o app e pode criar **decks**, **flash cards**, navegar na **biblioteca** e fazer **avaliações**
 
-- O usuário poderá listar decks.
-- Todo usuário poderá criar decks.
-- O deck poderá ter tags associadas identificar o(s) assunto(s) relacionado(s).
-- A deck pode ser publico ou privado (ele deve nascer privado sempre para ser publicado, ou ao ser criado o usuário escolherá?).
-- O deck pode conter no máximo 60 flash cards.
-- O usuário pode copiar decks publicos ou próprios.
-- O usuário poderá editar ou excluir suas próprios decks.
-- O usuário poderá detalhar os decks para ver os flashes cards pertencentes.
-- O usuário pode criar decks gerando flash cards automaticamente dado o seu objetivo, mediante ao preenchimento de alguma(s) informações.
+## Arquitetura
 
-### Gerenciamento de Flash Cards
+![arquitecture](./archtecture-basic.png)
 
-- Cada flash card terá uma pergunta, uma resposta e uma explicação (opcional).
-- O flash card pode ter dicas que serão mostradas junto com a pergunta.
-- A pergunta ou a resposta pode ter conteúdos de texto e imagem/gif.
-- O usuário poderá gerenciar os flash cards dentro do detalhamento do deck.
-- O usuário pode adicionar flash cards no deck.
-- O usuário pode editar os flash cards dos seus decks. 
-- O usuário pode excluir os flash cards dos seus decks.
-- O usuário pode regerar flash cards escolhendo aqueles que ele quer manter e os que ele quer excluir.
+### Stack
 
-### Estudo de Deck
+- Web App: React?/NextJS?
 
-- O usuário poderá clicar para estudar o deck.
-- Ao usuário ver a resposta, ele informar o nivel de dificuldade para ele, baseado nesse resposta
-a carta será mostrada com mais frequencia durante o estudo (ou mais rapidamente).
+- Authentication:
 
-### Biblioteca de Decks
+  - Manager: NextJS?/FastAPI?
+  - Provider: Self?/External IAM?
 
-- Todo usuário poderá ver decks publicos em uma página de "Biblioteca".
-- Na biblioteca, o usuário poderá pesquisar os decks por titulo/descrição ou por tag(s).
-- Na biblioteca, os decks devem ser carregados parcialmente de alguma forma fornecendo uma continuidade para visualização (paginação ou infinity scrolling)
-- O usuário poderá adicionar decks publicos ao favoritar um deck.
-- O usuário poderá recomendar ou não recomendar um deck com uma comentário de avaliação.
-- No detalhamento de um deck na biblioteca, será mostrado as avaliações da comunidade.
-- O usuário poderá informar em cada avaliação se ela foi util ou não
-- Os decks recomendados na consulta inicial devem considerar as preferencias do usuário, quantidade de favoritos e avaliações.
+- Decks API: FastAPI
 
-### Usuários e Autenticação
+  - AI Library: Langchain?/PydanticAI?
+  - LLM API: ?
+  - Consumer Library: FastStream?/Celery?/Taskiq?
 
-- Qualquer pessoa pode cadastrar seu proprio usuário na plataforma (Com email e senha, ou com o google).
-- Ao realizar a primeira autenticação o usuário pode selecionar as tags de assuntos de sua preferencia.
-- A identificação de cada usuário deve ser realizada através do email (ele será unico).
-- Todo usuário poderá autenticar na plataforma utilizando email e senha.
-- O usuário deverá confirmar o seu email ao criar sua conta (exceto se ele criar a conta pelo google).
-- Todo usuário poderá recuperar sua senha, mediante confirmação do email cadastrado e via link de recuperação de senha (com tempo de expiração).
+- Database: PostgreSQL
+- Object Store: S3?/Azure Blob?/Supabase?
+- Message Broker: Redis
 
-## Backlog
+### Decisões
 
-- Adicionar comentários para o deck ou flash card.
-- Adicionar outros usuários como Editores do Deck (Ter Auditoria)
-- Batalha de Decks
-- Merge de Decks (ou Estudar com mais de um Deck)
-- Limitar a Geração de Decks / Cards Baseado em um Plano de Uso
-- Implementar uma forma de Ler o Card (em Audio).
-- Implementar Tipos Diferentes de Flash Card (Multipla Escolha, Questões Abertas, Auto Complete e ETC)
+- Decks API
+
+  - Foi escolhido [Python](https://www.python.org/) por conta das funcionalidades utilizando AI
+  - o [FastAPI](https://fastapi.tiangolo.com/) foi selecionado por ter suporte assíncrono nativo (proporcionado pelo [uvicorn](https://uvicorn.dev/) e o [uvloop](https://uvloop.readthedocs.io/))
+  - o [FastAPI](https://fastapi.tiangolo.com/) também tem a capacidade de processar tarefas em background, com o BackgroundTasks ou em conjunto com libs assíncronas como [aio-pika](https://docs.aio-pika.com/), [redis](https://redis.readthedocs.io/en/latest/), [faststream](https://faststream.ag2.ai/latest/)
+
+- Database:
+
+  - Após avaliar as vantagens e desvantagens entre um banco de dados orientado a documentos (NoSQL) e um banco de dados relacional para esse caso de uso, foi concluído que não havia muitas diferenças. Por tanto o [PostgreSQL](https://www.postgresql.org/) foi escolhido pela proximidade dos integrantes com banco de dados relacionais e o ORM [SQLAlchemy](https://www.sqlalchemy.org/).
+
+- Message Broker:
+
+  - O [Redis](https://redis.io/) foi selecionado pela sua simplicidade no sistema de entrega de mensagens (Pub e Sub) em comparação ao RabbitMQ ou o Apache Kafka
+  - O [Redis](https://redis.io/) também possibilita a sua utilização como banco de dados chave e valor para implementação de funcionalidades futuras.
