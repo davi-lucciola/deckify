@@ -18,12 +18,7 @@ Esse projeto é uma plataforma de estudos através de FlashCards, onde as coleç
 
 ### Stack
 
-- Web App: React?/NextJS?
-
-- Authentication:
-
-  - Manager: NextJS?/FastAPI?
-  - Provider: Self?/External IAM?
+- Web App: NextJS
 
 - Decks API: FastAPI
 
@@ -32,10 +27,20 @@ Esse projeto é uma plataforma de estudos através de FlashCards, onde as coleç
   - Consumer Library: FastStream?/Celery?/Taskiq?
 
 - Database: PostgreSQL
-- Object Store: S3?/Azure Blob?/Supabase?
 - Message Broker: Redis
+- Object Store: S3?/Azure Blob?/Supabase?
+
+- Authentication:
+
+  - Manager: Pending (FastAPI provalemente)
+  - Provider: Pending (Implementação propria provavelmente)
 
 ### Decisões
+
+- Web App
+
+  - Foi escolhido o [NextJS](https://nextjs.org/) por conta das funcionalidades proporcionadas por ele de utilizar Server side rendering e cache, dado que foi avaliado um bom caso de uso para a página da biblioteca que será compartilhada entre usuários.
+  - Dado a proximidade do grupo com o [React](https://react.dev/) a curva de aprendizado será baixa, e é esperado que os desenvolvedores se aprendam rapidamente.
 
 - Decks API
 
