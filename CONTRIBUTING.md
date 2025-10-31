@@ -95,6 +95,42 @@ Antes de abrir um PR, todos os testes e linters devem passar localmente.
 
 (WIP) Caso os testes e o linter não passem a pipeline de CI não permitirá o Merge do Pull Request
 
+### Configurando Formatação ao Salvar
+
+Antes de mais nada, para habilitar a formatação ao salvar é preciso adicionar a configuração abaixo no arquivo "settings.json" em "Preferences: Open User Settings (JSON)"
+
+```json
+{
+  "editor.formatOnSave": true
+}
+```
+
+#### Frontend
+
+Para configurar as estensões do linter e formatador do frontend, será necessário instalar as extensões do `ESLint` e do `Prettier`.
+
+![eslint-extension](.github/assets/eslint-extension.png)
+![prettier-extension](.github/assets/prettier-extension.png)
+
+Após isso, abra o arquivo "settings.json" em "Preferences: Open User Settings (JSON)", e adicione as linhas abaixo:
+
+```json
+{
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "always"
+    }
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "always"
+    }
+  }
+}
+```
+
 ## 🌿 Estrutura de Branches
 
 | Tipo de Branch | Descrição                               | Exemplo              |
