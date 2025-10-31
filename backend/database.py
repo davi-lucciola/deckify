@@ -11,7 +11,7 @@ engine = create_engine(
     settings.DATABASE_URL,
     echo=False,  # Set to True for SQL query logging in development
     pool_pre_ping=True,  # Verify connections before use
-    pool_recycle=300,  # Recycle connections every 5 minutes
+    pool_recycle=settings.pool_recycle  # Recycle connections every specified seconds
 )
 
 # Create SessionLocal class

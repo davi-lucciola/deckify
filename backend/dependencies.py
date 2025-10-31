@@ -20,10 +20,8 @@ def get_db() -> Generator[Session, None, None]:
     try:
         yield db
     except Exception as err:
-        # Rollback the session in case of any exception
         db.rollback()
         raise err
     finally:
-        # Always close the session
         db.close()
     

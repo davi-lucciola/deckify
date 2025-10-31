@@ -1,19 +1,12 @@
 """
 Configuration module for loading environment variables.
 """
-import os
-from dotenv import load_dotenv
 from pydantic_settings import BaseSettings
 
 
-load_dotenv()
-
-
 class Settings(BaseSettings):
-    DATABASE_URL: str = os.getenv(
-        "DATABASE_URL", 
-        "postgresql://postgres:Deckfy@localhost:5432/Deckfy"
-    )
+    DATABASE_URL: str = "postgresql://postgres:Deckfy@localhost:5432/Deckfy"
+    pool_recycle: int = 300  # Recycle connections every 5 minutes
 
 # Global instance
 settings = Settings()
