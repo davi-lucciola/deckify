@@ -13,7 +13,13 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = ["mypy>=1.18.2", "ruff>=0.14.2", "taskipy>=1.14.1"]
+dev = [
+    "mypy>=1.18.2",
+    "ruff>=0.14.2",
+    "taskipy>=1.14.1",
+    "pytest>=8.4.2",
+    "pytest-cov>=7.0.0",
+]
 
 [tool.ruff]
 line-length = 88
@@ -29,7 +35,9 @@ preview = true
 quote-style = "single"
 
 [tool.taskipy.tasks]
-dev = "uvicorn main:app --port 8000 --reload"
-lint = "ruff check && mypy ."
+dev = "uvicorn api.main:app --port 8000 --reload"
+lint = "mypy . && ruff check"
+test = "pytest -s -x --cov=api -vv"
 format = "ruff format"
 pre_format = "ruff check --fix"
+post_test = "coverage html -d .htmlcov"

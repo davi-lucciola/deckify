@@ -1,6 +1,6 @@
 # virtual environment
 .venv
-.vscode
+
 
 # env files (can opt-in for committing if needed)
 .env*
@@ -9,3 +9,9 @@
 __pycache__
 .ruff_cache
 .mypy_cache
+.pytest_cache
+
+# misc
+.vscode
+.htmlcov
+.coverage
