@@ -1,9 +1,8 @@
 from fastapi import FastAPI
 
-
 app = FastAPI(
-    title='Deckify API', 
-    description='API for manage deckify users, decks and cards'
+    title='Deckify API',
+    description='API for manage deckify users, decks and cards',
 )
 
 

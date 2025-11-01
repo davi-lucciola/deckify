@@ -11,3 +11,25 @@ dependencies = [
     "python-dotenv>=1.0.0",
     "pydantic-settings>=2.0.0",
 ]
+
+[dependency-groups]
+dev = ["mypy>=1.18.2", "ruff>=0.14.2", "taskipy>=1.14.1"]
+
+[tool.ruff]
+line-length = 88
+indent-width = 4
+
+[tool.ruff.lint]
+preview = true
+select = ["I", "F", "E", "W", "PL", "PT"]
+ignore = ["PLR0913", "PLR0917"]
+
+[tool.ruff.format]
+preview = true
+quote-style = "single"
+
+[tool.taskipy.tasks]
+dev = "uvicorn main:app --port 8000 --reload"
+lint = "ruff check && mypy ."
+format = "ruff format"
+pre_format = "ruff check --fix"

@@ -95,7 +95,7 @@ Antes de abrir um PR, todos os testes e linters devem passar localmente.
 
 (WIP) Caso os testes e o linter não passem a pipeline de CI não permitirá o Merge do Pull Request
 
-### Configurando Formatação ao Salvar
+### Configurando Linters e Format-On-Save
 
 Antes de mais nada, para habilitar a formatação ao salvar é preciso adicionar a configuração abaixo no arquivo "settings.json" em "Preferences: Open User Settings (JSON)"
 
@@ -122,11 +122,54 @@ Após isso, abra o arquivo "settings.json" em "Preferences: Open User Settings (
       "source.fixAll.eslint": "always"
     }
   },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "always"
+    }
+  },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "always"
     }
+  }
+}
+```
+
+#### Backend
+
+Para configurar a extensão do linter e formatador do backend, será necessário instalar a extenção do `Ruff`
+
+![ruff-extension](.github/assets/ruff-extension.png)
+
+Após isso, abra o arquivo "settings.json" em "Preferences: Open User Settings (JSON)", e adicione as linhas abaixo:
+
+```json
+{
+  // Python
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit"
+    }
+  },
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.typeCheckingMode": "strict"
+}
+```
+
+Estaremos utilizando `typeChekingMode` como `strict` no python para o desenvolvimento, o que significa que a checagem de todas tipagens serão estáticas em tempo de desenvolvimento.
+
+O `autoImportCompletions` é opcional, mas gosto muito dele para conseguir realizar importações automaticamente.
+
+Opcionalmente você também pode configurar um icone caso esteja utilizando a extensão do `material-icons`
+
+```json
+{
+  // Material Icons
+  "material-icon-theme.folders.associations": {
+    "migrations": "meta"
   }
 }
 ```
