@@ -35,7 +35,7 @@ preview = true
 quote-style = "single"
 
 [tool.taskipy.tasks]
-dev = "uvicorn api.main:app --port 8000 --reload"
+dev = "fastapi dev app/main.py"
 lint = "mypy . && ruff check"
 test = "pytest -s -x --cov=app -vv"
 format = "ruff format"
