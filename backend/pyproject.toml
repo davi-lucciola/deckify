@@ -37,7 +37,7 @@ quote-style = "single"
 [tool.taskipy.tasks]
 dev = "uvicorn api.main:app --port 8000 --reload"
 lint = "mypy . && ruff check"
-test = "pytest -s -x --cov=api -vv"
+test = "pytest -s -x --cov=app -vv"
 format = "ruff format"
 pre_format = "ruff check --fix"
 post_test = "coverage html -d .htmlcov"
