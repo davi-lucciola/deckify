@@ -1,0 +1,39 @@
+name: Frontend Pull Request CI
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "frontend/**"
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Using NodeJS
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: "frontend/.nvmrc"
+
+      - name: Instaling Yarn
+        run: npm install -g yarn
+
+      - name: Building NextJS
+        run: |
+          cd frontend
+          yarn install
+          yarn build
+
+      - name: Running Lint
+        run: |
+          cd frontend
+          yarn lint
+
+      # - name: Running Tests
+      #   run: |
+      #     cd frontend
+      #     yarn test
