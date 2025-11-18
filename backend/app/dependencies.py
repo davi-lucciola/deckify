@@ -1,29 +1,12 @@
 """
-FastAPI dependencies for database session management.
+FastAPI dependencies for dependency injection of external infra.
 """
 
-from typing import Generator
+from typing import Annotated
 
-from sqlalchemy.orm import Session
+from fastapi import Depends
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.database import SessionLocal
+from app.database import get_db
 
-
-def get_db() -> Generator[Session, None, None]:
-    """
-    This dependency ensures that:
-    - A new session is created for each request
-    - The session is automatically closed after the request
-    - Any unhandled exceptions trigger a rollback
-
-    Yields:
-        Session: SQLAlchemy database session
-    """
-    db = SessionLocal()
-    try:
-        yield db
-    except Exception as err:
-        db.rollback()
-        raise err
-    finally:
-        db.close()
+type SQLAlchemy = Annotated[AsyncSession, Depends(get_db)]

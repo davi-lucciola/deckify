@@ -6,8 +6,8 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "fastapi[standard]>=0.120.0",
+    "asyncpg>=0.30.0",
     "sqlalchemy>=2.0.0",
-    "psycopg2-binary>=2.9.0",
     "python-dotenv>=1.0.0",
     "pydantic-settings>=2.0.0",
 ]
@@ -33,6 +33,15 @@ ignore = ["PLR0913", "PLR0917"]
 [tool.ruff.format]
 preview = true
 quote-style = "single"
+
+[tool.pytest.ini_options]
+pythonpath = "."
+addopts = "-p no:warnings"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.coverage.run]
+concurrency = ["thread", "greenlet"]
+omit = ["app/config.py", "app/database.py", "app/dependencies.py"]
 
 [tool.taskipy.tasks]
 dev = "fastapi dev app/main.py"

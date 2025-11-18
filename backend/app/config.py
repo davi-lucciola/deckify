@@ -9,7 +9,9 @@ env.load_dotenv()
 
 
 class Settings(BaseSettings):
-    DATABASE_URL: str = 'postgresql://postgres:Deckfy@localhost:5432/Deckfy'
+    # Database Settings
+    SHOW_SQL: bool = False  # Show Generated SQL Queries
+    DATABASE_URL: str = 'postgresql+asyncpg://admin:admin@db:5432/deckify'
     POOL_RECYCLE_SECONDS: int = 60 * 5  # Recycle connections every 5 minutes
 
 
