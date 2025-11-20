@@ -4,8 +4,7 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 WORKDIR /deckify-api
 
-RUN apk update && \
-    apk add gcc
+RUN apk update
 
 COPY pyproject.toml uv.lock ./
 

@@ -32,6 +32,25 @@ jobs:
           uv run ruff check .
 
       - name: Running Tests
+        id: tests
         run: |
           cd backend
           uv run pytest -s --cov=app
+          COVERAGE=$(uv run coverage report | grep "TOTAL" | awk '{print $4}' | sed 's/%//')
+          echo "Coverage: $COVERAGE%"
+          echo "cov=$COVERAGE" >> $GITHUB_OUTPUT
+
+      - name: Print Summary
+        run: |
+          echo "# 📝 Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## 🧪 Test Coverage" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.tests.outputs.cov }}%" >> $GITHUB_STEP_SUMMARY
+
+      - name: Fail if coverage < 90%
+        run: |
+          COV=${{ steps.tests.outputs.cov }}
+          if [ "$COV" -lt 90 ]; then
+            echo "Coverage is below 90%: ${COV}%"
+            exit 1
+          fi
+        shell: bash
