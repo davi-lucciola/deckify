@@ -56,3 +56,19 @@ Esse projeto é uma plataforma de estudos através de FlashCards, onde as coleç
 
   - O [Redis](https://redis.io/) foi selecionado pela sua simplicidade no sistema de entrega de mensagens (Pub e Sub) em comparação ao RabbitMQ ou o Apache Kafka
   - O [Redis](https://redis.io/) também possibilita a sua utilização como banco de dados chave e valor para implementação de funcionalidades futuras.
+
+## Como rodar
+-  Podemos utilizar o comando 
+
+`docker run <nomeDoContainer>`
+
+ para rodar um container isolodamente
+- Ou podemos utilizar o docker-compose para rodar um ou mais containers com o comando 
+
+`
+  docker-compose up --build
+`
+
+- O comando "up" sobe o container e o "--build" serve para construir a imagem desta aplicação. 
+- Lembre se dar o comando no diretório raíz do projeto 
+.../deckify/
