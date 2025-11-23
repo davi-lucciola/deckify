@@ -59,15 +59,16 @@ Esse projeto é uma plataforma de estudos através de FlashCards, onde as coleç
 
 ## Como Rodar
 
-- rodar o comando no terminal 
+Rodar o comando no terminal 
 
 `
   docker-compose up --build
 `
-- lembre-se de estar no diretório raiz do projeto ao dar este comando.
+
+- Lembre-se de estar no diretório raiz do projeto ao dar este comando.
 `.../deckify/`
 
 - Para acessar a aplicação acesse o link a seguir: http://localhost:3000/
 
-- você pode também, acessar a documentação da api em: http://localhost:8000/docs 
+- Você pode também, acessar a documentação da api em: http://localhost:8000/docs 
 
