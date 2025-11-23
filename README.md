@@ -56,3 +56,19 @@ Esse projeto é uma plataforma de estudos através de FlashCards, onde as coleç
 
   - O [Redis](https://redis.io/) foi selecionado pela sua simplicidade no sistema de entrega de mensagens (Pub e Sub) em comparação ao RabbitMQ ou o Apache Kafka
   - O [Redis](https://redis.io/) também possibilita a sua utilização como banco de dados chave e valor para implementação de funcionalidades futuras.
+
+## Como Rodar
+
+Rodar o comando no terminal 
+
+`
+  docker-compose up --build
+`
+
+- Lembre-se de estar no diretório raiz do projeto ao dar este comando.
+`.../deckify/`
+
+- Para acessar a aplicação acesse o link a seguir: http://localhost:3000/
+
+- Você pode também, acessar a documentação da api em: http://localhost:8000/docs 
+
