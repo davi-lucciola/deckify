@@ -190,16 +190,16 @@ Opcionalmente você também pode configurar um icone caso esteja utilizando a ex
 O projeto segue o padrão Custom Conventional Commits, adaptado para monorepos.
 
 ```
-<scope>(<type>/<nome>): <descrição>
+[<scope>] <type>/<nome>: <descrição>
 ```
 
 Exemplos:
 
 ```
-backend(feat/deck-service): add create deck endpoint
-frontend(bugfix/flashcard-ui): fix flashcard flip animation
-infra(feat/ci): add workflow for lint and test
-docs(feat/readme): update contributing section
+[backend] feat/deck-service: add create deck endpoint
+[frontend] bugfix/flashcard-ui: fix flashcard flip animation
+[infra] feat/ci: add workflow for lint and test
+[docs] feat/readme: update contributing section
 ```
 
 Tipos permitidos:
