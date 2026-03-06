@@ -46,10 +46,10 @@ docker compose up --build        # Build and start all services (API :8000, Web 
 
 ## Commit & Branch Conventions
 
-Commit format: `<scope>(<type>/<name>): <description>`
+Commit format: `[<scope>] <type>/<name>: <description>`
 - Scopes: `backend`, `frontend`, `infra`, `docs`
 - Types: `feat`, `bugfix`, `test`, `docs`, `infra`
-- Example: `backend(feat/deck-service): add create deck endpoint`
+- Example: `[backend] feat/deck-service: add create deck endpoint`
 
 Branch naming: `feat/<name>`, `bugfix/<name>`, `docs/<name>`, `infra/<name>`
 
