@@ -20,18 +20,18 @@ jobs:
           node-version-file: "frontend/.nvmrc"
 
       - name: Instaling Yarn
-        run: npm install -g yarn
-
-      - name: Building NextJS
-        run: |
-          cd frontend
-          yarn install
-          yarn build
+        run: npm install -g pnpm
 
       - name: Running Lint
         run: |
           cd frontend
-          yarn lint
+          pnpm lint
+
+      - name: Building NextJS
+        run: |
+          cd frontend
+          pnpm install
+          pnpm build
 
       # - name: Running Tests
       #   run: |
