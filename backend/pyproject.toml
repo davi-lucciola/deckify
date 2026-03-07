@@ -10,6 +10,7 @@ dependencies = [
     "sqlalchemy>=2.0.0",
     "python-dotenv>=1.0.0",
     "pydantic-settings>=2.0.0",
+    "alembic>=1.18.4",
 ]
 
 [dependency-groups]
@@ -45,6 +46,7 @@ omit = ["app/config.py", "app/database.py", "app/dependencies.py"]
 
 [tool.taskipy.tasks]
 dev = "fastapi dev app/main.py"
+migrate = "alembic upgrade head"
 lint = "mypy . && ruff check"
 test = "pytest -s -x --cov=app -vv"
 format = "ruff format"
