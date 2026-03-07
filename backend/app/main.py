@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 
+from app.controllers import health_router
+
 app = FastAPI(
     title='Deckify API',
     description='API for manage deckify users, decks and cards',
 )
 
 
-@app.get('/health', summary='Health Check', tags=['Infra'])
-def health_check():
-    return {'status': 'ok'}
+app.include_router(health_router)
