@@ -31,14 +31,19 @@ jobs:
           uv run mypy .
           uv run ruff check .
 
-      - name: Running Tests
+      - name: Running Unit Tests
         id: tests
         run: |
           cd backend
-          uv run pytest -s --cov=app
+          uv run pytest -s --cov=app tests/unit
           COVERAGE=$(uv run coverage report | grep "TOTAL" | awk '{print $4}' | sed 's/%//')
           echo "Coverage: $COVERAGE%"
           echo "cov=$COVERAGE" >> $GITHUB_OUTPUT
+
+      - name: Running E2E Tests
+        run: |
+          cd backend
+          uv run pytest -s tests/e2e
 
       - name: Print Summary
         run: |
