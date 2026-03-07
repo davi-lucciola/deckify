@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.controllers import health_router
+from app.controller import health_router
 
 app = FastAPI(
     title='Deckify API',
