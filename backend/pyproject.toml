@@ -42,13 +42,15 @@ asyncio_default_fixture_loop_scope = "function"
 
 [tool.coverage.run]
 concurrency = ["thread", "greenlet"]
-omit = ["app/config.py", "app/database.py", "app/dependencies.py"]
+omit = ["app/core/**", "app/main.py"]
 
 [tool.taskipy.tasks]
 dev = "fastapi dev app/main.py"
 migrate = "alembic upgrade head"
 lint = "mypy . && ruff check"
-test = "pytest -s -x --cov=app -vv"
+test-unit = "pytest -s -x --cov=app tests/unit -vv"
+test-e2e = "pytest -s -x tests/e2e -vv"
+test = "pytest -s -x --cov=app tests/unit -vv && pytest -s -x tests/e2e -vv"
 format = "ruff format"
 pre_format = "ruff check --fix"
 post_test = "coverage html -d .htmlcov"
