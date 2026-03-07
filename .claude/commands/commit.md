@@ -1,55 +1,114 @@
-# Commit Command
+---
+allowed-tools:
+  - Bash(git branch --show-current)
+  - Bash(git status)
+  - Bash(git add .)
+  - Bash(git diff --staged)
+  - Bash(git checkout -b *)
+  - Bash(git commit -m *)
+  - Bash(git push -u origin *)
+---
 
-Execute the steps below in order to create a commit following the project conventions.
+# Commit and Push
+
+Arguments: `$ARGUMENTS`
+
+You are responsible for the **entire** commit and push flow. Execute all steps autonomously — only pause to ask the user when you face a genuine ambiguity that cannot be resolved from context.
+
+If `$ARGUMENTS` contains `push`, perform all steps including Step 6 (push). Otherwise, stop after Step 5 (commit) and skip the push.
+
+---
 
 ## Step 1: Check the current branch
 
 Run `git branch --show-current`.
 
 If the current branch is `main`:
-- Warn the user that commits must not be made directly on `main`
-- Inspect the staged/unstaged files (`git status`) to infer a branch name suggestion following the conventions:
-  - `feat/<name>` for new features
-  - `bugfix/<name>` for bug fixes
-  - `docs/<name>` for documentation changes
-  - `infra/<name>` for infrastructure or CI/CD changes
-- Present the suggestion and ask the user to confirm or provide a different name
-- Create and switch to the branch with `git checkout -b <branch-name>`
+- Warn the user that direct commits to `main` are not allowed
+- Run `git status` to inspect changes and infer a branch name following the conventions:
+  - `feat/<name>` — new features
+  - `bugfix/<name>` — bug fixes
+  - `docs/<name>` — documentation
+  - `chore/<name>` — maintenance, config, tooling, dependencies
+  - `infra/<name>` — infrastructure or CI/CD
+- Suggest the branch name and ask the user to confirm or provide a different one
+- Create and switch with `git checkout -b <branch-name>`
 
-## Step 2: Check staged files
+---
+
+## Step 2: Stage files
 
 Run `git status` to inspect staged and unstaged changes.
 
-If nothing is staged:
-- Ask the user whether to stage all files (`git add .`) or specify which files to stage
+If nothing is staged, run `git add .` to stage all changes automatically.
 
-## Step 3: Infer the scope
+---
 
-Based on the paths of staged files, infer the commit scope:
+## Step 3: Infer the commit fields
 
-- Files under `backend/**` → scope `backend`
-- Files under `frontend/**` → scope `frontend`
-- Files under `.github/**`, `docker-compose*`, or other infra/CI files → scope `infra`
-- Files matching `*.md` or under `docs/**` → scope `docs`
-- Mixed changes spanning multiple scopes → ask the user which scope applies
+Run `git diff --staged` to understand what changed.
+
+### Scope
+Infer from the paths of staged files:
+
+| Files | Scope |
+|---|---|
+| `backend/**` | `backend` |
+| `frontend/**` | `frontend` |
+| `.github/**`, `docker-compose*` | `infra` |
+| `*.md`, `docs/**`, `.claude/**` | `docs` |
+| Mixed across multiple scopes | ask the user |
+
+### Type
+Infer from the nature of the changes:
+
+| Nature | Type |
+|---|---|
+| New functionality or endpoint | `feat` |
+| Bug fix | `bugfix` |
+| Tests added or updated | `test` |
+| Documentation, rules, README | `docs` |
+| Config, tooling, dependencies, formatting | `chore` |
+| CI/CD, Docker, infra changes | `infra` |
+
+### Name
+Derive a short kebab-case identifier from the files or feature changed (e.g. `claude-rules`, `deck-service`, `biome-config`).
+
+### Description
+Write a short, imperative sentence describing what the commit does (e.g. `add typescript rules`, `fix login redirect`).
+
+---
 
 ## Step 4: Build the commit message
 
-Ask the user for:
-- **type**: one of `feat`, `bugfix`, `test`, `docs`, `infra`
-- **name**: a short kebab-case identifier for the change (e.g. `deck-service`, `flashcard-ui`)
-- **description**: a short imperative description of what the commit does
-
-Then build the message in the format:
+Use the format:
 ```
 [<scope>] <type>/<name>: <description>
 ```
 
 Example:
 ```
-[backend] feat/deck-service: add create deck endpoint
+[docs] chore/claude-rules: add typescript and python lint rules
 ```
 
-## Step 5: Execute the commit
+---
 
-Run `git commit -m "<message>"` and show the result to the user.
+## Step 5: Commit
+
+Run:
+```bash
+git commit -m "[<scope>] <type>/<name>: <description>"
+```
+
+If the commit fails due to a pre-commit hook, fix the reported issue, re-stage, and create a **new** commit (never amend).
+
+---
+
+## Step 6: Push _(only if `$ARGUMENTS` contains `push`)_
+
+Run:
+```bash
+git push -u origin <branch>
+```
+
+Show the result and confirm to the user that the branch has been pushed.
