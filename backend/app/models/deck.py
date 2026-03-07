@@ -10,3 +10,7 @@ class Deck(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     title: Mapped[str] = mapped_column(String, nullable=False)
     description: Mapped[str] = mapped_column(String, nullable=False)
+
+    def __init__(self, title: str, description: str):
+        self.title = title
+        self.description = description
