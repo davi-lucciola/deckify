@@ -11,7 +11,11 @@ allowed-tools:
 
 # Commit and Push
 
+Arguments: `$ARGUMENTS`
+
 You are responsible for the **entire** commit and push flow. Execute all steps autonomously — only pause to ask the user when you face a genuine ambiguity that cannot be resolved from context.
+
+If `$ARGUMENTS` contains `push`, perform all steps including Step 6 (push). Otherwise, stop after Step 5 (commit) and skip the push.
 
 ---
 
@@ -100,7 +104,7 @@ If the commit fails due to a pre-commit hook, fix the reported issue, re-stage, 
 
 ---
 
-## Step 6: Push
+## Step 6: Push _(only if `$ARGUMENTS` contains `push`)_
 
 Run:
 ```bash
