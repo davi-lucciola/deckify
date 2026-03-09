@@ -15,9 +15,9 @@ paths:
 ## Type Annotations
 
 - All functions must have full type annotations (mypy strict mode is enforced)
-- Use Python 3.12+ `type X = ...` syntax for type aliases
+- Use regular assignment `X = Annotated[...]` for FastAPI dependency type aliases — the `type X = ...` (PEP 695) syntax breaks FastAPI's `get_type_hints()` resolution
 - Never use `Any` unless absolutely necessary; prefer narrowing with `isinstance` or `TypeGuard`
-- Prefer `X | None` over `Optional[X]`
+- Prefer `Optional[X]` over `X | None`
 
 ## Naming Conventions
 
@@ -32,6 +32,7 @@ paths:
 - Use list/dict/set comprehensions over `map`/`filter` when readable
 - Prefer `pathlib.Path` over `os.path` for filesystem operations
 - Use `dataclasses` or Pydantic models instead of raw dicts for structured data
+- Prefer `@dataclass` over manual `__init__` to avoid boilerplate; use `field(default_factory=lambda: [])` for mutable defaults
 - Avoid mutable default arguments; use `None` and initialize inside the function
 
 ## Async-First

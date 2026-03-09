@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.schemas.health import HealthOut
+from app.api.schemas.health_schema import HealthOut
 
 health_router = APIRouter(tags=['Infra'])
 
