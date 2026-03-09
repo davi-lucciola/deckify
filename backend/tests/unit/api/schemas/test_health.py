@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from app.schemas.health import HealthOut
+from app.api.schemas.health import HealthOut
 
 
 def test_health_out_valid() -> None:

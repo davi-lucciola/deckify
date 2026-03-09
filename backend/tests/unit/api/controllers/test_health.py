@@ -1,5 +1,5 @@
-from app.controller.health_controller import health_check
-from app.schemas.health import HealthOut
+from app.api.controllers.health import health_check
+from app.api.schemas.health import HealthOut
 
 
 def test_health_check_returns_ok() -> None:
