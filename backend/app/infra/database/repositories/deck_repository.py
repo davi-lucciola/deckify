@@ -4,8 +4,8 @@ from dataclasses import dataclass
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.repositories.deck_repository import IDeckRepository
 from app.domain.entities.deck import Deck as DeckEntity
-from app.domain.repositories.deck_repository import IDeckRepository
 from app.infra.database.models.deck_model import DeckModel
 
 
@@ -29,7 +29,7 @@ class SQLAlchemyDeckRepository(IDeckRepository):
         result = await self.session.execute(
             select(DeckModel).where(DeckModel.id == deck_id)
         )
-        model = result.scalar_one_or_none()
+        model = result.scalar()
         return self._to_entity(model) if model is not None else None
 
     async def create(self, deck: DeckEntity) -> DeckEntity:

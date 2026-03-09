@@ -1,8 +1,8 @@
 import uuid
 from dataclasses import dataclass
 
+from app.core.repositories.deck_repository import IDeckRepository
 from app.domain.entities.deck import Deck
-from app.domain.repositories.deck_repository import IDeckRepository
 
 
 @dataclass

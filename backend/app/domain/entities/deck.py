@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 from uuid import UUID
 
 from app.domain.entities.flash_card import FlashCard
+from app.domain.exceptions.deck_exceptions import DeckValidationError
 
 
 @dataclass
@@ -13,7 +14,7 @@ class Deck:
 
     def __post_init__(self) -> None:
         if not self.title.strip():
-            raise ValueError('Deck title cannot be empty')
+            raise DeckValidationError('Deck title cannot be empty')
 
         if self.description is not None and not self.description.strip():
-            raise ValueError('Deck description cannot be empty')
+            raise DeckValidationError('Deck description cannot be empty')

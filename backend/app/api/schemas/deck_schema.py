@@ -1,11 +1,12 @@
+from typing import Optional
 from uuid import UUID
 
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, ConfigDict, field_validator
 
 
 class CreateDeckIn(BaseModel):
     title: str
-    description: str | None = None
+    description: Optional[str] = None
 
     @field_validator('title')
     @classmethod
@@ -16,13 +17,15 @@ class CreateDeckIn(BaseModel):
 
     @field_validator('description')
     @classmethod
-    def description_must_not_be_blank(cls, v: str | None) -> str | None:
+    def description_must_not_be_blank(cls, v: Optional[str]) -> str | None:
         if v is not None and not v.strip():
             raise ValueError('description must not be blank')
         return v
 
 
 class DeckOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: UUID
     title: str
-    description: str | None
+    description: Optional[str]

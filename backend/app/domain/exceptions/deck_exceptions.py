@@ -1,0 +1,2 @@
+class DeckValidationError(ValueError):
+    pass
