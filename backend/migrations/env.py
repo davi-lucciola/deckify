@@ -5,9 +5,9 @@ from alembic import context
 from sqlalchemy import Connection
 from sqlalchemy.ext.asyncio import create_async_engine
 
-from app.core.config import settings
-from app.core.database import Base
-from app.models import *  # noqa: F403
+from app.config import settings
+from app.infra.database.models import *  # noqa: F403
+from app.infra.database.session import Base
 
 alembic_config = context.config
 
