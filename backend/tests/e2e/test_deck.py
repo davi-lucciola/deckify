@@ -1,31 +1,26 @@
 import uuid
-from collections.abc import Generator
-from unittest.mock import AsyncMock
+from collections.abc import AsyncGenerator
 
 import pytest
 from fastapi import status
-from fastapi.testclient import TestClient
-
-from app.dependencies import get_deck_repository
-from app.domain.entities.deck import Deck
-from app.main import app
+from httpx import AsyncClient
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession
 
 
-@pytest.fixture
-def client() -> Generator[TestClient, None, None]:
-    mock_repo = AsyncMock()
-
-    async def fake_create(deck: Deck) -> Deck:
-        return deck
-
-    mock_repo.create.side_effect = fake_create
-    app.dependency_overrides[get_deck_repository] = lambda: mock_repo
-    yield TestClient(app=app)
-    app.dependency_overrides.clear()
+@pytest.fixture(autouse=True)
+async def clean_db(test_engine: AsyncEngine) -> AsyncGenerator[None, None]:
+    yield
+    async with AsyncSession(test_engine, expire_on_commit=False) as db:
+        await db.execute(text('TRUNCATE TABLE decks RESTART IDENTITY CASCADE'))
+        await db.commit()
 
 
-def test_create_deck_returns_201(client: TestClient) -> None:
-    response = client.post('/decks', json={'title': 'Python', 'description': None})
+@pytest.mark.anyio
+async def test_create_deck_returns_201(client: AsyncClient) -> None:
+    response = await client.post(
+        '/decks', json={'title': 'Python', 'description': None}
+    )
     assert response.status_code == status.HTTP_201_CREATED
     data = response.json()
     assert data['title'] == 'Python'
@@ -33,11 +28,23 @@ def test_create_deck_returns_201(client: TestClient) -> None:
     assert uuid.UUID(data['id'])
 
 
-def test_create_deck_missing_title_returns_422(client: TestClient) -> None:
-    response = client.post('/decks', json={'description': 'Some description'})
+@pytest.mark.anyio
+async def test_create_deck_missing_title_returns_422(client: AsyncClient) -> None:
+    response = await client.post('/decks', json={'description': 'Some description'})
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
 
 
-def test_create_deck_blank_title_returns_422(client: TestClient) -> None:
-    response = client.post('/decks', json={'title': '   '})
+@pytest.mark.anyio
+async def test_create_deck_blank_title_returns_422(client: AsyncClient) -> None:
+    response = await client.post('/decks', json={'title': '   '})
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+
+
+@pytest.mark.anyio
+async def test_create_deck_persists_to_database(client: AsyncClient) -> None:
+    payload = {'title': 'Algorithms', 'description': 'DSA'}
+    response1 = await client.post('/decks', json=payload)
+    response2 = await client.post('/decks', json=payload)
+    assert response1.status_code == status.HTTP_201_CREATED
+    assert response2.status_code == status.HTTP_201_CREATED
+    assert response1.json()['id'] != response2.json()['id']

@@ -14,6 +14,7 @@ def mock_repository() -> AsyncMock:
     return repo
 
 
+@pytest.mark.anyio
 async def test_create_deck_returns_deck_entity(mock_repository: AsyncMock) -> None:
     service = DeckService(repository=mock_repository)
     result = await service.create_deck(title='Python', description=None)
@@ -22,12 +23,14 @@ async def test_create_deck_returns_deck_entity(mock_repository: AsyncMock) -> No
     assert result.description is None
 
 
+@pytest.mark.anyio
 async def test_create_deck_generates_uuid(mock_repository: AsyncMock) -> None:
     service = DeckService(repository=mock_repository)
     result = await service.create_deck(title='Python', description=None)
     assert isinstance(result.id, uuid.UUID)
 
 
+@pytest.mark.anyio
 async def test_create_deck_passes_correct_fields_to_repository(
     mock_repository: AsyncMock,
 ) -> None:
