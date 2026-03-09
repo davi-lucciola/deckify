@@ -3,7 +3,7 @@ import uuid
 import pytest
 from pydantic import ValidationError
 
-from app.api.schemas.deck import CreateDeckIn, DeckOut
+from app.api.schemas.deck_schema import CreateDeckIn, DeckOut
 
 
 def test_create_deck_in_valid() -> None:

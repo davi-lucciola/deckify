@@ -3,6 +3,7 @@ import uuid
 import pytest
 
 from app.domain.entities.deck import Deck
+from app.domain.exceptions.deck_exceptions import DeckValidationError
 
 
 def test_deck_valid() -> None:
@@ -18,10 +19,10 @@ def test_deck_valid_with_description() -> None:
 
 
 def test_deck_raises_when_title_is_blank() -> None:
-    with pytest.raises(ValueError, match='title'):
+    with pytest.raises(DeckValidationError, match='title'):
         Deck(id=uuid.uuid4(), title='   ', description=None)
 
 
 def test_deck_raises_when_description_is_blank() -> None:
-    with pytest.raises(ValueError, match='description'):
+    with pytest.raises(DeckValidationError, match='description'):
         Deck(id=uuid.uuid4(), title='Python', description='   ')
