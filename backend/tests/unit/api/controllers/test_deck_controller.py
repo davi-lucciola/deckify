@@ -1,11 +1,14 @@
 import uuid
 from unittest.mock import AsyncMock
 
+import pytest
+
 from app.api.controllers.deck_controller import create_deck
 from app.api.schemas.deck_schema import CreateDeckIn
 from app.domain.entities.deck import Deck
 
 
+@pytest.mark.anyio
 async def test_create_deck_calls_service_with_title_and_description() -> None:
     body = CreateDeckIn(title='Python', description='A deck about Python')
     mock_service = AsyncMock()
@@ -20,6 +23,7 @@ async def test_create_deck_calls_service_with_title_and_description() -> None:
     )
 
 
+@pytest.mark.anyio
 async def test_create_deck_calls_service_with_none_description() -> None:
     body = CreateDeckIn(title='Python')
     mock_service = AsyncMock()
@@ -32,6 +36,7 @@ async def test_create_deck_calls_service_with_none_description() -> None:
     mock_service.create_deck.assert_awaited_once_with(title='Python', description=None)
 
 
+@pytest.mark.anyio
 async def test_create_deck_returns_deck_entity() -> None:
     body = CreateDeckIn(title='Python')
     expected_deck = Deck(id=uuid.uuid4(), title='Python', description=None)

@@ -48,6 +48,7 @@ def test_to_entity_maps_none_description() -> None:
 # --- find_all ---
 
 
+@pytest.mark.anyio
 async def test_find_all_returns_all_decks(session: AsyncMock) -> None:
     models = [_make_model(title='Python'), _make_model(title='Java')]
     result_mock = MagicMock()
@@ -62,6 +63,7 @@ async def test_find_all_returns_all_decks(session: AsyncMock) -> None:
     assert decks[1].title == 'Java'
 
 
+@pytest.mark.anyio
 async def test_find_all_returns_empty_list_when_no_decks(session: AsyncMock) -> None:
     result_mock = MagicMock()
     result_mock.scalars.return_value.all.return_value = []
@@ -76,6 +78,7 @@ async def test_find_all_returns_empty_list_when_no_decks(session: AsyncMock) -> 
 # --- find_by_id ---
 
 
+@pytest.mark.anyio
 async def test_find_by_id_returns_entity_when_found(session: AsyncMock) -> None:
     deck_id = uuid.uuid4()
     model = _make_model(deck_id=deck_id, title='Python')
@@ -91,6 +94,7 @@ async def test_find_by_id_returns_entity_when_found(session: AsyncMock) -> None:
     assert deck.title == 'Python'
 
 
+@pytest.mark.anyio
 async def test_find_by_id_returns_none_when_not_found(session: AsyncMock) -> None:
     result_mock = MagicMock()
     result_mock.scalar.return_value = None
@@ -105,6 +109,7 @@ async def test_find_by_id_returns_none_when_not_found(session: AsyncMock) -> Non
 # --- create ---
 
 
+@pytest.mark.anyio
 async def test_create_adds_to_session_and_commits(session: AsyncMock) -> None:
     deck_entity = DeckEntity(id=uuid.uuid4(), title='Python', description=None)
 
@@ -115,6 +120,7 @@ async def test_create_adds_to_session_and_commits(session: AsyncMock) -> None:
     session.commit.assert_awaited_once()
 
 
+@pytest.mark.anyio
 async def test_create_returns_entity_with_same_data(session: AsyncMock) -> None:
     deck_id = uuid.uuid4()
     deck_entity = DeckEntity(id=deck_id, title='Python', description='Python basics')

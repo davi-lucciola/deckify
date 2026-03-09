@@ -1,12 +1,14 @@
 import json
 from unittest.mock import MagicMock
 
+import pytest
 from fastapi import status
 
 from app.api.exception_handlers import deck_validation_handler
 from app.domain.exceptions.deck_exceptions import DeckValidationError
 
 
+@pytest.mark.anyio
 async def test_deck_validation_handler_returns_422() -> None:
     request = MagicMock()
     exc = DeckValidationError('Deck title cannot be empty')
@@ -16,6 +18,7 @@ async def test_deck_validation_handler_returns_422() -> None:
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
 
 
+@pytest.mark.anyio
 async def test_deck_validation_handler_returns_exception_message() -> None:
     request = MagicMock()
     exc = DeckValidationError('Deck title cannot be empty')
